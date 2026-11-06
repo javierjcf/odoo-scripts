@@ -1,0 +1,22 @@
+[package]
+name = "odoo-freeze-repos"
+version = "0.1.0"
+edition = "2024"
+description = "Congela y descongela el repos.yaml de un proyecto Doodba a los commits en disco"
+
+
+[dependencies]
+anyhow = "1.0.104"
+chrono = { version = "0.4.45", default-features = false, features = ["clock"] }
+clap = { version = "4.6.7", features = ["derive"] }
+regex = "1.13.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_yaml_ng = "0.10.0"
+similar = "3.2.1"
+
+[profile.release]
+strip = true
+lto = true
+
+[dev-dependencies]
+tempfile = "3.27.0"
