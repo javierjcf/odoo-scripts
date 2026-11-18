@@ -334,7 +334,7 @@ EOF
 set -euo pipefail
 mkdir -p "$REMOTE_BACKUP_DIR"
 cd "$REMOTE_DOCKER_PATH"
-$REMOTE_COMPOSE_BIN $REMOTE_COMPOSE_OPT run --rm -T $REMOTE_SERVICE pg_dump $PG_DUMP_OPTS "$REMOTE_DB" </dev/null | grep -v "doodba INFO:" > "$REMOTE_BACKUP_DIR/$item"
+$REMOTE_COMPOSE_BIN $REMOTE_COMPOSE_OPT run --rm -T $REMOTE_SERVICE pg_dump $PG_DUMP_OPTS "$REMOTE_DB" </dev/null | grep -a -v '^doodba ' > "$REMOTE_BACKUP_DIR/$item"
 cd "$REMOTE_BACKUP_DIR"
 tar -czf "$BACKUP_NAME.tar.gz" "$item"
 rm -f "$item"
