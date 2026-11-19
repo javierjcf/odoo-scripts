@@ -381,11 +381,20 @@ local_restore() {
     rm -rf "${LOCAL_BACKUP_DIR:?}/$ITEM"
 }
 
+# sudo local: con LOCAL_SUDO_PASS la pasa por stdin; sin ella, pregunta por terminal
+lsudo() {
+    if [[ -n ${LOCAL_SUDO_PASS:-} ]]; then
+        sudo -S -p '' "$@" <<<"$LOCAL_SUDO_PASS"
+    else
+        sudo "$@"
+    fi
+}
+
 sync_filestore() {
     log "Sincronizando filestore (rsync --delete)..."
     local cmd=(rsync -azh --delete --info=progress2 -e "$RSYNC_SSH") pre=()
     if [[ $REMOTE_RSYNC_SUDO == true ]]; then cmd+=(--rsync-path="sudo rsync"); fi
-    if [[ $LOCAL_RSYNC_SUDO  == true ]]; then pre=(sudo --preserve-env=SSHPASS,SSH_AUTH_SOCK); fi
+    if [[ $LOCAL_RSYNC_SUDO  == true ]]; then pre=(lsudo --preserve-env=SSHPASS,SSH_AUTH_SOCK); fi
     "${pre[@]}" mkdir -p "${LOCAL_FILESTORE%/}"
     "${pre[@]}" "${SSH_PREFIX[@]}" "${cmd[@]}" \
         "$SSH_USER@$SSH_HOST:${REMOTE_FILESTORE%/}/" "${LOCAL_FILESTORE%/}/"
