@@ -95,6 +95,7 @@ LOCAL_DB="devel"
 LOCAL_DOCKER_PATH=""      # OBLIGATORIO: carpeta con devel.yaml en local
 LOCAL_FILESTORE=""        # obligatorio con --filestore
 LOCAL_RSYNC_SUDO=true     # rsync con sudo en local (filestore en /var/lib/docker)
+LOCAL_SUDO_PASS=""        # Si está vación hace prompt del password local
 LOCAL_BACKUP_DIR=""       # OBLIGATORIO: carpeta local donde se guardan los backups
 
 DUMP_FORMAT="dir"         # dir = pg_dump -Fd + pg_restore | sql = pg_dump plano + psql
